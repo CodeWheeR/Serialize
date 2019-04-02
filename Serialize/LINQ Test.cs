@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Serialize
 {
-	class Student
+	internal class Student
 	{
 		public string Name { get; set; }
 		public int Course { get; set; }
+
 		public Student(string name, int course)
 		{
 			Name = name;
@@ -17,37 +16,45 @@ namespace Serialize
 		}
 	}
 
-	class Player
+	internal class Player
 	{
 		public string Name { get; set; }
 		public string Team { get; set; }
 	}
-	class Team
+
+	internal class Team
 	{
 		public string Name { get; set; }
 		public string Country { get; set; }
 	}
 
-	class LINQ_Test
+	internal class LINQ_Test
 	{
 		public static void MyMain()
 		{
-			var numbers = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+			var numbers = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100 };
 
 			var squareOfNumbers = from x in numbers
 								  where x % 2 == 1
 								  select (x * x);
 
-
 			foreach (var i in squareOfNumbers)
+			{
 				Console.Write(i.ToString("# "));
+			}
+
 			Console.WriteLine();
 
 			var squareOfNumbers2 = numbers.Where(x => x % 2 == 1)
 				.Select(x => (x * x));
 
+			var etnyeChisla = numbers.Where(x => x % 2 == 0);
+
 			foreach (var i in squareOfNumbers2)
+			{
 				Console.Write(i.ToString("# "));
+			}
+
 			Console.WriteLine();
 			Console.WriteLine();
 
@@ -56,10 +63,16 @@ namespace Serialize
 			foreach (var i in from n in numbers
 							  orderby n ascending //descending
 							  select n)
+			{
 				Console.Write(i + " ");
+			}
+
 			Console.WriteLine();
 			foreach (var i in numbers.OrderByDescending(x => x))
+			{
 				Console.Write(i + " ");
+			}
+
 			Console.WriteLine();
 			Console.WriteLine();
 
@@ -78,20 +91,27 @@ namespace Serialize
 			};
 
 			foreach (var i in students.OrderBy(s => s.Course).ThenBy(s => s.Name))
+			{
 				Console.WriteLine($"{i.Name} - {i.Course} курс");
+			}
+
 			Console.WriteLine();
 
 			foreach (var i in from s in students
 							  orderby s.Course, s.Name
 							  select s)
+			{
 				Console.WriteLine($"{i.Name} - {i.Course} курс");
+			}
+
 			Console.WriteLine();
 
 			//////////////////////////////////////
 
 			var selectedStudents = from s in students
-								   let name = s.Name.Substring(1)
+
 								   where s.Course > 2
+								   let name = s.Name.Substring(1)
 								   where name.Length <= 7
 								   orderby name
 								   select "Cтудент " + name;
@@ -105,7 +125,9 @@ namespace Serialize
 											.Select(x => "Cтудент " + x.Name.Substring(1));
 
 			foreach (var i in selectedStudents2)
+			{
 				Console.WriteLine(i);
+			}
 
 			Console.WriteLine();
 
@@ -115,19 +137,31 @@ namespace Serialize
 			string[] two = { "Морковь", "Абрикос", "Яблоко" };
 
 			foreach (var i in one.Except(two))
+			{
 				Console.WriteLine(i);
+			}
+
 			Console.WriteLine();
 
 			foreach (var i in one.Intersect(two))
+			{
 				Console.WriteLine(i);
+			}
+
 			Console.WriteLine();
 
 			foreach (var i in one.Union(two))
+			{
 				Console.WriteLine(i);
+			}
+
 			Console.WriteLine();
 			//Или
 			foreach (var i in one.Concat(two).Distinct())
+			{
 				Console.WriteLine(i);
+			}
+
 			Console.WriteLine();
 
 			/////////////////////////////////////
@@ -146,12 +180,18 @@ namespace Serialize
 
 			var skippedNumbers = numbers.Skip(4);
 			foreach (var i in skippedNumbers)
-				Console.Write(i.ToString("# "));
+			{
+				Console.Write(i.ToString("0000"));
+			}
+
 			Console.WriteLine();
 
 			var takedNumbers = numbers.Take(4);
 			foreach (var i in takedNumbers)
+			{
 				Console.Write(i + " ");
+			}
+
 			Console.WriteLine();
 			Console.WriteLine();
 
@@ -166,14 +206,20 @@ namespace Serialize
 			{
 				Console.WriteLine(i.Key);
 				foreach (var j in i)
+				{
 					Console.WriteLine(j.Name);
+				}
+
 				Console.WriteLine();
 			}
 
 			var groupsCount = students.GroupBy(x => x.Course)
 									  .Select(x => x.Key + " курс - " + x.Count() + " студента");
 			foreach (var i in groupsCount)
+			{
 				Console.WriteLine(i);
+			}
+
 			Console.WriteLine();
 
 			var groups = students.GroupBy(x => x.Course)
@@ -182,7 +228,10 @@ namespace Serialize
 			{
 				Console.WriteLine(i.Name);
 				foreach (var j in i.Students)
+				{
 					Console.WriteLine(j);
+				}
+
 				Console.WriteLine();
 			}
 
@@ -202,37 +251,52 @@ namespace Serialize
 
 			var joining = players.Join(teams, x => x.Team, y => y.Name, (x, y) => (x.Name, x.Team, y.Country));
 			foreach (var i in joining)
+			{
 				Console.WriteLine($"{i.Name} - {i.Team} ({i.Country})");
+			}
+
 			Console.WriteLine();
 
 			var groupJoining = teams.GroupJoin(players, x => x.Name, y => y.Team, (x, Group/*!!!*/) => (x.Country, x.Name, Group));
+
 			foreach (var i in groupJoining)
 			{
 				Console.WriteLine($"{i.Name} ({i.Country})");
 				foreach (var j in i.Group)
+				{
 					Console.WriteLine(j.Name);
+				}
+
 				Console.WriteLine();
 			}
 			Console.WriteLine();
 
 			////////////////////////////////////////////////////
 
-			var counts = new int[5] { 1,2,3,4,5};
+			var counts = new int[5] { 1, 2, 3, 4, 5 };
 			var strings = new string[5] { "a", "b", "c", "d", "e" };
 
 			foreach (var i in counts.Zip(strings, (c, s) => Tuple.Create(c, s)))
+			{
 				Console.WriteLine(i.Item1 + " - " + i.Item2);
+			}
+
 			Console.WriteLine();
 
 			////////////////////////////////////////////////////
 
 			if (!students.All(x => x.Name.StartsWith("К")))
+			{
 				Console.WriteLine("У нас завелись студенты не на К...");
+			}
 
 			if (students.Any(x => x.Course == 3))
+			{
 				Console.WriteLine("Среди нас есть третекурсники");
-			Console.WriteLine();
+			}
 
+			Console.WriteLine();
+			Console.ReadLine();
 		}
 	}
 }

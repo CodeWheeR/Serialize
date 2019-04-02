@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Serialize
 {
 	[Serializable]
-	class Person
+	internal class Person
 	{
 		public string Name { get; set; }
 		public int Age { get; set; }
@@ -20,11 +14,14 @@ namespace Serialize
 			Age = age;
 		}
 	}
-	class Program
+
+	internal class Program
 	{
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
 			LINQ_Test.MyMain();
+
+			/////qqweqweqweqw
 			//Person person1 = new Person("Tom", 29);
 			//Person person2 = new Person("Bill", 25);
 			//// массив для сериализации
@@ -51,7 +48,6 @@ namespace Serialize
 			//	}
 			//}
 			//Console.ReadLine();
-
 		}
 	}
 }
