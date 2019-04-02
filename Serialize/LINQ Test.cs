@@ -109,7 +109,6 @@ namespace Serialize
 			//////////////////////////////////////
 
 			var selectedStudents = from s in students
-
 								   where s.Course > 2
 								   let name = s.Name.Substring(1)
 								   where name.Length <= 7
@@ -123,6 +122,10 @@ namespace Serialize
 			var selectedStudents2 = students.Where(x => x.Course > 2 && x.Name.Substring(1).Length <= 7)
 											.OrderBy(x => x.Name.Substring(1))
 											.Select(x => "Cтудент " + x.Name.Substring(1));
+			var selectedStudents3 = students.Where(x => x.Course > 2)
+											.Select(x => x.Name.Substring(1)).Where(x => x.Length <= 7)
+											.OrderBy(x => x)
+											.Select(x => "Cтудент " + x); ;
 
 			foreach (var i in selectedStudents2)
 			{
@@ -174,6 +177,8 @@ namespace Serialize
 
 			int max = numbers.Max();
 			Console.WriteLine(max);
+
+
 			Console.WriteLine();
 
 			/////////////////////////////////////
@@ -181,7 +186,7 @@ namespace Serialize
 			var skippedNumbers = numbers.Skip(4);
 			foreach (var i in skippedNumbers)
 			{
-				Console.Write(i.ToString("0000"));
+				Console.Write(i.ToString("####"));
 			}
 
 			Console.WriteLine();
@@ -216,6 +221,14 @@ namespace Serialize
 			var groupsCount = students.GroupBy(x => x.Course)
 									  .Select(x => x.Key + " курс - " + x.Count() + " студента");
 			foreach (var i in groupsCount)
+			{
+				Console.WriteLine(i);
+			}
+
+			//////ВНИМАНИЕ, ФИЧА////////
+			foreach (var i in students.GroupBy(x => x.Course)
+									  .Select(x => x.Key + " курс - " +
+									x.Aggregate((x1, y) => new Student(x1.Name + ", " + y.Name, y.Course)).Name))
 			{
 				Console.WriteLine(i);
 			}
