@@ -28,6 +28,15 @@ namespace Serialize
 		public string Country { get; set; }
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <example>
+	/// <code>
+	///		int a = 5;
+	///		a.
+	/// </code>
+	/// </example>
 	internal class LINQ_Test
 	{
 		public static void MyMain()
@@ -178,7 +187,6 @@ namespace Serialize
 			int max = numbers.Max();
 			Console.WriteLine(max);
 
-
 			Console.WriteLine();
 
 			/////////////////////////////////////
@@ -227,8 +235,8 @@ namespace Serialize
 
 			//////ВНИМАНИЕ, ФИЧА////////
 			foreach (var i in students.GroupBy(x => x.Course)
-									  .Select(x => x.Key + " курс - " +
-									x.Aggregate((x1, y) => new Student(x1.Name + ", " + y.Name, y.Course)).Name))
+							.Select(x => x.Key + " курс - " +
+						x.Select(x1 => x1.Name).Aggregate((x1, y) => x1 + ", " + y)))
 			{
 				Console.WriteLine(i);
 			}
@@ -262,6 +270,8 @@ namespace Serialize
 			new Player {Name="Роббен", Team="Бавария"}
 			};
 
+			var tup = Tuple.Create(5, "Оля", new Object());
+
 			var joining = players.Join(teams, x => x.Team, y => y.Name, (x, y) => (x.Name, x.Team, y.Country));
 			foreach (var i in joining)
 			{
@@ -270,9 +280,9 @@ namespace Serialize
 
 			Console.WriteLine();
 
-			var groupJoining = teams.GroupJoin(players, x => x.Name, y => y.Team, (x, Group/*!!!*/) => (x.Country, x.Name, Group));
+			           /*!!!*/    
 
-			foreach (var i in groupJoining)
+			foreach (var i in teams.GroupJoin(players, x => x.Name, y => y.Team, (x, Group/*!!!*/) => (x.Country, x.Name, Group)))
 			{
 				Console.WriteLine($"{i.Name} ({i.Country})");
 				foreach (var j in i.Group)
